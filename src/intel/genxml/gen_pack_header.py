@@ -53,7 +53,7 @@ pack_header = """%(license)s
 #include <math.h>
 
 #ifndef __gen_validate_value
-#define __gen_validate_value(x)
+#define __gen_validate_value(x) do {} while(0)
 #endif
 
 #ifndef __gen_field_functions

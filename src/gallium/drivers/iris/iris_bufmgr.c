@@ -73,7 +73,7 @@
 #include <memcheck.h>
 #define VG(x) x
 #else
-#define VG(x)
+#define VG(x) ((void)0)
 #endif
 
 /* VALGRIND_FREELIKE_BLOCK unfortunately does not actually undo the earlier

@@ -550,7 +550,7 @@ void anv_loge_v(const char *format, va_list va);
       mesa_loge("%s:%d ASSERT: %s", __FILE__, __LINE__, #x); \
 })
 #else
-#define anv_assert(x)
+#define anv_assert(x) do {} while(0)
 #endif
 
 /* A multi-pointer allocator

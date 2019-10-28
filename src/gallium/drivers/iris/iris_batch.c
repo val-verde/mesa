@@ -59,7 +59,7 @@
 #include <memcheck.h>
 #define VG(x) x
 #else
-#define VG(x)
+#define VG(x) ((void)0)
 #endif
 
 #define FILE_DEBUG_FLAG DEBUG_BUFMGR

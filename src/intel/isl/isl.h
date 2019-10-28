@@ -61,7 +61,7 @@ struct brw_image_param;
  * `gcc -DISL_DEV_GEN(dev)=9 ...`.
  */
 #define ISL_DEV_GEN(__dev) ((__dev)->info->gen)
-#define ISL_DEV_GEN_SANITIZE(__dev)
+#define ISL_DEV_GEN_SANITIZE(__dev) do {} while(0)
 #else
 #define ISL_DEV_GEN_SANITIZE(__dev) \
    (assert(ISL_DEV_GEN(__dev) == (__dev)->info->gen))
@@ -91,7 +91,7 @@ struct brw_image_param;
  * `gcc -DISL_DEV_USE_SEPARATE_STENCIL(dev)=1 ...`.
  */
 #define ISL_DEV_USE_SEPARATE_STENCIL(__dev) ((__dev)->use_separate_stencil)
-#define ISL_DEV_USE_SEPARATE_STENCIL_SANITIZE(__dev)
+#define ISL_DEV_USE_SEPARATE_STENCIL_SANITIZE(__dev) do {} while(0)
 #else
 #define ISL_DEV_USE_SEPARATE_STENCIL_SANITIZE(__dev) \
    (assert(ISL_DEV_USE_SEPARATE_STENCIL(__dev) == (__dev)->use_separate_stencil))

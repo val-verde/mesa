@@ -81,7 +81,7 @@
 #define __gen_validate_value(x) VALGRIND_CHECK_MEM_IS_DEFINED(&(x), sizeof(x))
 #endif
 #else
-#define VG(x)
+#define VG(x) ((void)0)
 #endif
 
 #include "pipe/p_defines.h"
@@ -2719,9 +2719,9 @@ fill_buffer_image_param(struct brw_image_param *param,
    param->stride[0] = cpp;
 }
 #else
-#define isl_surf_fill_image_param(x, ...)
-#define fill_default_image_param(x, ...)
-#define fill_buffer_image_param(x, ...)
+#define isl_surf_fill_image_param(x, ...) do {} while(0)
+#define fill_default_image_param(x, ...) do {} while(0)
+#define fill_buffer_image_param(x, ...) do {} while(0)
 #endif
 
 /**
