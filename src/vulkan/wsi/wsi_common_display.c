@@ -49,8 +49,8 @@
 #define wsi_display_debug(...) fprintf(stderr, __VA_ARGS__)
 #define wsi_display_debug_code(...)     __VA_ARGS__
 #else
-#define wsi_display_debug(...)
-#define wsi_display_debug_code(...)
+#define wsi_display_debug(...) do {} while(0)
+#define wsi_display_debug_code(...) do {} while(0)
 #endif
 
 /* These have lifetime equal to the instance, so they effectively
