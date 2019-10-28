@@ -88,7 +88,7 @@ util_vma_heap_validate(struct util_vma_heap *heap)
    }
 }
 #else
-#define util_vma_heap_validate(heap)
+#define util_vma_heap_validate(heap) do {} while(0)
 #endif
 
 static void

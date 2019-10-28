@@ -370,7 +370,7 @@ void debug_funclog_enter_exit(const char* f, const int line, const char* file);
    do { (void)__debug_decleration_work_around; return; } while(0)
 #define DEBUG_FUNCLOG_EXIT_RET(ret) \
    do { (void)__debug_decleration_work_around; return ret; } while(0)
-#define DEBUG_FUNCLOG_ENTER_EXIT()
+#define DEBUG_FUNCLOG_ENTER_EXIT() do {} while(0)
 #endif
 
 

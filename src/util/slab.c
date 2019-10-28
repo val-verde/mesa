@@ -35,8 +35,8 @@
 #define SET_MAGIC(element, value)   (element)->magic = (value)
 #define CHECK_MAGIC(element, value) assert((element)->magic == (value))
 #else
-#define SET_MAGIC(element, value)
-#define CHECK_MAGIC(element, value)
+#define SET_MAGIC(element, value) do {} while(0)
+#define CHECK_MAGIC(element, value) do {} while(0)
 #endif
 
 /* One array element within a big buffer. */
