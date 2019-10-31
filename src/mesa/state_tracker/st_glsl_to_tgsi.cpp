@@ -100,9 +100,9 @@ static inline bool print_stats_enabled ()
    }
    return stats_enabled > 0;
 }
-#define PRINT_STATS(X) if (print_stats_enabled()) do { X; } while (false);
+#define PRINT_STATS(X) if (print_stats_enabled()) do { X; } while (false)
 #else
-#define PRINT_STATS(X)
+#define PRINT_STATS(X) do {} while (false)
 #endif
 
 

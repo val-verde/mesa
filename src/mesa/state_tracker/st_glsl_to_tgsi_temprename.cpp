@@ -73,9 +73,9 @@ static inline bool is_debug_enabled ()
       debug_enabled = env_var_as_boolean("GLSL_TO_TGSI_RENAME_DEBUG", false);
    return debug_enabled > 0;
 }
-#define RENAME_DEBUG(X) if (is_debug_enabled()) do { X; } while (false);
+#define RENAME_DEBUG(X) if (is_debug_enabled()) do { X; } while (false)
 #else
-#define RENAME_DEBUG(X)
+#define RENAME_DEBUG(X) do {} while(false)
 #endif
 
 namespace {

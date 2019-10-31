@@ -146,8 +146,8 @@ using std::make_unique;
 #define ARRAY_MERGE_DUMP(x) do std::cerr << x; while (0)
 #define ARRAY_MERGE_DUMP_BLOCK(x) do { x } while (0)
 #else
-#define ARRAY_MERGE_DUMP(x)
-#define ARRAY_MERGE_DUMP_BLOCK(x)
+#define ARRAY_MERGE_DUMP(x) do {} while(0)
+#define ARRAY_MERGE_DUMP_BLOCK(x) do {} while(0)
 #endif
 
 static const char xyzw[] = "xyzw";
