@@ -23,11 +23,10 @@
 
 #ifdef DEBUG
 #	define TRACE(x...) printf("SoftwareRenderer: " x)
-#	define CALLED() TRACE("CALLED: %s\n", __PRETTY_FUNCTION__)
 #else
-#	define TRACE(x...)
-#	define CALLED()
+#	define TRACE(x...) do {} while(0)
 #endif
+#define CALLED() TRACE("CALLED: %s\n", __PRETTY_FUNCTION__)
 #define ERROR(x...)	printf("SoftwareRenderer: " x)
 
 
