@@ -102,8 +102,8 @@
     cs_ptr = (ptr) = malloc((size) * sizeof(uint32_t))
 
 #define BEGIN_CB(ptr, size) cs_ptr = (ptr)
-#define END_CB
-#define CB_USED_DW(x)
+#define END_CB do {} while(0)
+#define CB_USED_DW(x) do {} while(0)
 
 #endif
 

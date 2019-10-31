@@ -61,9 +61,9 @@
 
 #else
 
-#define BEGIN_CS(size)
-#define END_CS
-#define CS_USED_DW(x)
+#define BEGIN_CS(size) do {} while(0)
+#define END_CS do {} while(0)
+#define CS_USED_DW(x) do {} while(0)
 
 #endif
 
