@@ -156,7 +156,7 @@ nv10_render_release_vertices(struct gl_context *ctx)
 }
 
 /* Vertex array rendering defs. */
-#define RENDER_LOCALS(ctx)
+#define RENDER_LOCALS(ctx) do {} while(0)
 
 #define BATCH_VALIDATE()						\
 	BEGIN_NV04(push, NV10_3D(VTXBUF_VALIDATE), 1);	\

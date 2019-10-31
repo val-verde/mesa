@@ -125,7 +125,7 @@ struct nouveau_screen {
 #else
 # define NOUVEAU_DRV_STAT(s, n, v)     do { } while(0)
 # define NOUVEAU_DRV_STAT_RES(r, n, v) do { } while(0)
-# define NOUVEAU_DRV_STAT_IFD(x)
+# define NOUVEAU_DRV_STAT_IFD(x) do { } while(0)
 #endif
 
 static inline struct nouveau_screen *
