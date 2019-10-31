@@ -67,8 +67,8 @@ extern const struct lp_rasterizer_task *jit_task;
 
 #else
 
-#define BEGIN_JIT_CALL(X, Y)
-#define END_JIT_CALL()
+#define BEGIN_JIT_CALL(X, Y) do {} while(0)
+#define END_JIT_CALL() do {} while(0)
 
 #endif
 
