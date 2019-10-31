@@ -29,7 +29,7 @@
 #if FBC_DEBUG
 #define FBC_DUMP(q) do { q } while (0)
 #else
-#define FBC_DUMP(q)
+#define FBC_DUMP(q) do {} while(0)
 #endif
 
 #include "sb_bc.h"

@@ -29,7 +29,7 @@
 #if GCM_DEBUG
 #define GCM_DUMP(a) do { a } while(0);
 #else
-#define GCM_DUMP(a)
+#define GCM_DUMP(a) do {} while(0)
 #endif
 
 #include <map>

@@ -29,7 +29,7 @@
 #if PPH_DEBUG
 #define PPH_DUMP(q) do { q } while (0)
 #else
-#define PPH_DUMP(q)
+#define PPH_DUMP(q) do {} while(0)
 #endif
 
 #include "sb_shader.h"

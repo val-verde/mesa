@@ -29,7 +29,7 @@
 #if GVN_DEBUG
 #define GVN_DUMP(q) do { q } while (0)
 #else
-#define GVN_DUMP(q)
+#define GVN_DUMP(q) do {} while(0)
 #endif
 
 #include "sb_shader.h"

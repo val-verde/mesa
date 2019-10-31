@@ -32,7 +32,7 @@
 #if LIV_DEBUG
 #define LIV_DUMP(a) do { a } while (0)
 #else
-#define LIV_DUMP(a)
+#define LIV_DUMP(a) do {} while(0)
 #endif
 
 namespace r600_sb {

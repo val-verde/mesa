@@ -29,7 +29,7 @@
 #if BCP_DEBUG
 #define BCP_DUMP(q) do { q } while (0)
 #else
-#define BCP_DUMP(q)
+#define BCP_DUMP(q) do {} while(0)
 #endif
 
 #include "r600_pipe.h"

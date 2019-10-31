@@ -29,7 +29,7 @@
 #if PSC_DEBUG
 #define PSC_DUMP(a) do { a } while (0)
 #else
-#define PSC_DUMP(a)
+#define PSC_DUMP(a) do {} while(0)
 #endif
 
 #include "sb_bc.h"

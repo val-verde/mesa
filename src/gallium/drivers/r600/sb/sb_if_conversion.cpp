@@ -29,7 +29,7 @@
 #if IFC_DEBUG
 #define IFC_DUMP(q) do { q } while (0)
 #else
-#define IFC_DUMP(q)
+#define IFC_DUMP(q) do {} while(0)
 #endif
 
 #include "sb_shader.h"

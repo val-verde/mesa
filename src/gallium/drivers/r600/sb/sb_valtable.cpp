@@ -29,7 +29,7 @@
 #if VT_DEBUG
 #define VT_DUMP(q) do { q } while (0)
 #else
-#define VT_DUMP(q)
+#define VT_DUMP(q) do {} while(0)
 #endif
 
 #include <cstring>
