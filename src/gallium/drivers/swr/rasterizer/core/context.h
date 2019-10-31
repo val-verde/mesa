@@ -588,16 +588,16 @@ struct SWR_CONTEXT
 #define RDTSC_BEGIN(pBucketMgr, type, drawid) RDTSC_START(pBucketMgr, type)
 #define RDTSC_END(pBucketMgr, type, count) RDTSC_STOP(pBucketMgr, type, count, 0)
 #else
-#define RDTSC_BEGIN(pBucketMgr, type, drawid)
-#define RDTSC_END(pBucketMgr, type, count)
+#define RDTSC_BEGIN(pBucketMgr, type, drawid) do {} while(0)
+#define RDTSC_END(pBucketMgr, type, count) do {} while(0)
 #endif
 
 #ifdef KNOB_ENABLE_AR
 #define _AR_EVENT(ctx, event) ArchRast::Dispatch(ctx, ArchRast::event)
 #define _AR_FLUSH(ctx, id) ArchRast::FlushDraw(ctx, id)
 #else
-#define _AR_EVENT(ctx, event)
-#define _AR_FLUSH(ctx, id)
+#define _AR_EVENT(ctx, event) do {} while(0)
+#define _AR_FLUSH(ctx, id) do {} while(0)
 #endif
 
 // Use these macros for api thread.

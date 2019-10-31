@@ -115,12 +115,12 @@ void rdtscEndFrame(BucketManager* pBucketMgr);
 #define RDTSC_EVENT(pBucketMgr, bucket, count1, count2) rdtscEvent(pBucketMgr, bucket, count1, count2)
 #define RDTSC_ENDFRAME(pBucketMgr) rdtscEndFrame(pBucketMgr)
 #else
-#define RDTSC_RESET(pBucketMgr)
-#define RDTSC_INIT(pBucketMgr, threadId)
-#define RDTSC_START(pBucketMgr, bucket)
-#define RDTSC_STOP(pBucketMgr, bucket, count, draw)
-#define RDTSC_EVENT(pBucketMgr, bucket, count1, count2)
-#define RDTSC_ENDFRAME(pBucketMgr)
+#define RDTSC_RESET(pBucketMgr) do {} while(0)
+#define RDTSC_INIT(pBucketMgr, threadId) do {} while(0)
+#define RDTSC_START(pBucketMgr, bucket) do {} while(0)
+#define RDTSC_STOP(pBucketMgr, bucket, count, draw) do {} while(0)
+#define RDTSC_EVENT(pBucketMgr, bucket, count1, count2) do {} while(0)
+#define RDTSC_ENDFRAME(pBucketMgr) do {} while(0)
 #endif
 
 extern BUCKET_DESC           gCoreBuckets[];
