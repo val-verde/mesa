@@ -57,7 +57,7 @@
 #ifdef DEBUG
 #define DEBUG_PRINT(msg, ...) fprintf(stderr, msg, __VA_ARGS__)
 #else
-#define DEBUG_PRINT(msg, ...)
+#define DEBUG_PRINT(msg, ...) do {} while(0)
 #endif
 
 struct kms_sw_displaytarget;
