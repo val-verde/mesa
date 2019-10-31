@@ -38,7 +38,7 @@
 #if TC_DEBUG >= 1
 #define tc_assert assert
 #else
-#define tc_assert(x)
+#define tc_assert(x) do {} while(0)
 #endif
 
 #if TC_DEBUG >= 2
@@ -46,7 +46,7 @@
 #define tc_asprintf asprintf
 #define tc_strcmp strcmp
 #else
-#define tc_printf(...)
+#define tc_printf(...) 0
 #define tc_asprintf(...) 0
 #define tc_strcmp(...) 0
 #endif

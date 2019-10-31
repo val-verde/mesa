@@ -125,14 +125,14 @@ void x86_print_reg( struct x86_reg reg )
 
 #else
 
-#define DUMP_START()
-#define DUMP_END()
-#define DUMP( )
-#define DUMP_I( I )
-#define DUMP_R( R0 )
-#define DUMP_RR( R0, R1 )
-#define DUMP_RI( R0, I )
-#define DUMP_RRI( R0, R1, I )
+#define DUMP_START() do {} while(0)
+#define DUMP_END() do {} while(0)
+#define DUMP( ) do {} while(0)
+#define DUMP_I( I ) do {} while(0)
+#define DUMP_R( R0 ) do {} while(0)
+#define DUMP_RR( R0, R1 ) do {} while(0)
+#define DUMP_RI( R0, I ) do {} while(0)
+#define DUMP_RRI( R0, R1, I ) do {} while(0)
 
 #endif
 
