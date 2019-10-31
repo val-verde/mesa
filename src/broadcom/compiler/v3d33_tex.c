@@ -27,7 +27,7 @@
 #define __gen_user_data void
 #define __gen_address_type uint32_t
 #define __gen_address_offset(reloc) (*reloc)
-#define __gen_emit_reloc(cl, reloc)
+#define __gen_emit_reloc(cl, reloc) do {} while(0)
 #include "cle/v3d_packet_v33_pack.h"
 
 void
