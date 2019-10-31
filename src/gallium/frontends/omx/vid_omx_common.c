@@ -33,7 +33,7 @@
 #include <X11/Xlib.h>
 #else
 #define XOpenDisplay(x) NULL
-#define XCloseDisplay(x)
+#define XCloseDisplay(x) do {} while(0)
 #define Display void
 #endif
 
