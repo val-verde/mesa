@@ -31,7 +31,7 @@
 #endif
 
 #ifndef INIT
-#define INIT(x)
+#define INIT(x) do {} while(0)
 #endif
 
 #ifndef NEED_EDGEFLAG_SETUP

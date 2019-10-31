@@ -65,26 +65,26 @@
  */
 
 #if HAVE_BACK_COLORS
-#define VERT_SET_RGBA( v, c )
+#define VERT_SET_RGBA( v, c ) do {} while(0)
 #endif
 
 #if !HAVE_SPEC
 #define VERT_SET_SPEC( v, c ) (void) c
-#define VERT_COPY_SPEC( v0, v1 )
-#define VERT_SAVE_SPEC( idx )
-#define VERT_RESTORE_SPEC( idx )
+#define VERT_COPY_SPEC( v0, v1 ) do {} while(0)
+#define VERT_SAVE_SPEC( idx ) do {} while(0)
+#define VERT_RESTORE_SPEC( idx ) do {} while(0)
 #if HAVE_BACK_COLORS
-#define VERT_COPY_SPEC1( v )
+#define VERT_COPY_SPEC1( v ) do {} while(0)
 #endif
 #else
 #if HAVE_BACK_COLORS
-#define VERT_SET_SPEC( v, c )
+#define VERT_SET_SPEC( v, c ) do {} while(0)
 #endif
 #endif
 
 #if !HAVE_BACK_COLORS
-#define VERT_COPY_SPEC1( v )
-#define VERT_COPY_RGBA1( v )
+#define VERT_COPY_SPEC1( v ) do {} while(0)
+#define VERT_COPY_RGBA1( v ) do {} while(0)
 #endif
 
 #ifndef INSANE_VERTICES
@@ -104,10 +104,10 @@
 #define DO_TWOSTENCIL 0
 #endif
 #ifndef SETUP_STENCIL
-#define SETUP_STENCIL(f)
+#define SETUP_STENCIL(f) do {} while(0)
 #endif
 #ifndef UNSET_STENCIL
-#define UNSET_STENCIL(f)
+#define UNSET_STENCIL(f) do {} while(0)
 #endif
 
 #if DO_TRI

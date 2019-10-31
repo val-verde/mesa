@@ -26,10 +26,10 @@
  */
 
 #if !HAVE_SPEC
-#define VERT_SET_SPEC( v, c )
-#define VERT_COPY_SPEC( v0, v1 )
-#define VERT_SAVE_SPEC( idx )
-#define VERT_RESTORE_SPEC( idx )
+#define VERT_SET_SPEC( v, c ) do {} while(0)
+#define VERT_COPY_SPEC( v0, v1 ) do {} while(0)
+#define VERT_SAVE_SPEC( idx ) do {} while(0)
+#define VERT_RESTORE_SPEC( idx ) do {} while(0)
 #endif
 
 static void TAG(unfilled_tri)( struct gl_context *ctx,

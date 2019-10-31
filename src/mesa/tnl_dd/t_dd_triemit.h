@@ -3,7 +3,7 @@
 #endif 
 
 #ifndef PRINT_VERTEX
-#define PRINT_VERTEX(x) 
+#define PRINT_VERTEX(x) do {} while(0)
 #endif
 
 #if defined(USE_X86_ASM)
