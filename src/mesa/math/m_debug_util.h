@@ -252,8 +252,8 @@ x -= counter_overhead;
 
 #else
 
-#define BEGIN_RACE(x)
-#define END_RACE(x)
+#define BEGIN_RACE(x) do {} while(0)
+#define END_RACE(x) do {} while(0)
 
 #endif
 
