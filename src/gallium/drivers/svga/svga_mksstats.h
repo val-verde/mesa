@@ -41,9 +41,9 @@
 
 #else
 
-#define SVGA_STATS_COUNT_INC(_sws, _stat)
-#define SVGA_STATS_TIME_PUSH(_sws, _stat)
-#define SVGA_STATS_TIME_POP(_sws)
+#define SVGA_STATS_COUNT_INC(_sws, _stat) do {} while(0)
+#define SVGA_STATS_TIME_PUSH(_sws, _stat) do {} while(0)
+#define SVGA_STATS_TIME_POP(_sws) do {} while(0)
 
 #endif
 #endif /* _SVGA_MKSSTATS_H */
