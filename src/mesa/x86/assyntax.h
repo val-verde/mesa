@@ -312,7 +312,6 @@
 #define ALIGNDATA4	CHOICE(.align 4, .align ARG2(2,0x0), .align 4)
 #define ALIGNDATA2	CHOICE(.align 2, .align ARG2(1,0x0), .align 2)
 #endif /* __AOUT__ */
-#define FILE(s)		CHOICE(.file s, .file s, .file s)
 #define STRING(s)	CHOICE(.string s, .asciz s, .asciz s)
 #define D_LONG		CHOICE(.long, .long, .data4)
 #define D_WORD		CHOICE(.value, .short, .data2)
@@ -913,7 +912,6 @@
 #define ALIGNDATA8		ALIGN 8
 #define ALIGNDATA4		ALIGN 4
 #define ALIGNDATA2		ALIGN 2
-#define FILE(s)
 #define STRING(s)	db s
 #define D_LONG		dd
 #define D_WORD		dw
@@ -956,7 +954,6 @@
 #define ALIGNDATA8		ALIGN 8
 #define ALIGNDATA4		ALIGN 4
 #define ALIGNDATA2		ALIGN 2
-#define FILE(s)
 #define STRING(s)	db s
 #define D_LONG		dd
 #define D_WORD		dw
