@@ -282,7 +282,6 @@ static inline void AlignedFree(void* p)
 #define PRAGMA_WARNING_PUSH_DISABLE(...)
 #define PRAGMA_WARNING_POP()
 
-#define ZeroMemory(dst, size) memset(dst, 0, size)
 #else
 
 #error Unsupported OS/system.
