@@ -155,22 +155,6 @@ typedef unsigned char boolean;
 
 #endif
 
-
-#if defined(__GNUC__)
-
-#define PIPE_READ_WRITE_BARRIER() __asm__("":::"memory")
-
-#elif defined(_MSC_VER)
-
-#define PIPE_READ_WRITE_BARRIER() _ReadWriteBarrier()
-
-#else
-
-#warning "Unsupported compiler"
-#define PIPE_READ_WRITE_BARRIER() /* */
-
-#endif
-
 #if defined(__cplusplus)
 }
 #endif
