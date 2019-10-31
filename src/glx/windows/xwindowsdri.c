@@ -76,9 +76,9 @@ XEXT_GENERATE_CLOSE_DISPLAY(close_display, windowsdri_info)
 
 #if 0
 #include <stdio.h>
-#define TRACE(msg, ...)  fprintf(stderr, "WindowsDRI" msg "\n", ##__VA_ARGS__);
+#define TRACE(msg, ...)  fprintf(stderr, "WindowsDRI" msg "\n", ##__VA_ARGS__)
 #else
-#define TRACE(msg, ...)
+#define TRACE(msg, ...) do {} while(0)
 #endif
 
 Bool

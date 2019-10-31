@@ -89,9 +89,9 @@ XEXT_GENERATE_CLOSE_DISPLAY(close_display, xf86dri_info)
  *****************************************************************************/
 #if 0
 #include <stdio.h>
-#define TRACE(msg)  fprintf(stderr,"XF86DRI%s\n", msg);
+#define TRACE(msg)  fprintf(stderr,"XF86DRI%s\n", msg)
 #else
-#define TRACE(msg)
+#define TRACE(msg) do {} while(0)
 #endif
 
 Bool

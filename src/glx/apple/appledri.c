@@ -119,9 +119,9 @@ wire_to_event(Display *dpy, XEvent *re, xEvent *event)
 
 #if 0
 #include <stdio.h>
-#define TRACE(msg)  fprintf(stderr, "AppleDRI%s\n", msg);
+#define TRACE(msg)  fprintf(stderr, "AppleDRI%s\n", msg)
 #else
-#define TRACE(msg)
+#define TRACE(msg) do {} while(0)
 #endif
 
 
