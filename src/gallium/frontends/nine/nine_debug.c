@@ -65,7 +65,11 @@ _nine_debug_printf( unsigned long flag,
 {
     static boolean first = TRUE;
     static unsigned long dbg_flags = DBG_ERROR | DBG_WARN;
+#if defined(HAVE_PTHREAD)
+    pthread_t tid;
+#else
     unsigned long tid = 0;
+#endif
 
     if (first) {
         first = FALSE;
