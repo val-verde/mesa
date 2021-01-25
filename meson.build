@@ -1362,13 +1362,7 @@ if cc.has_function('dladdr', dependencies : dep_dl)
   pre_args += '-DHAVE_DLADDR'
 endif
 
-if cc.has_function('dl_iterate_phdr')
-  pre_args += '-DHAVE_DL_ITERATE_PHDR'
-elif with_intel_vk
-  error('Intel "Anvil" Vulkan driver requires the dl_iterate_phdr function')
-elif with_dri_i965 and with_shader_cache
-  error('Intel i965 GL driver requires dl_iterate_phdr when built with shader caching.')
-endif
+pre_args += '-DHAVE_DL_ITERATE_PHDR'
 
 # Determine whether or not the rt library is needed for time functions
 if host_machine.system() == 'windows' or cc.has_function('clock_gettime')
