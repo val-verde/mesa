@@ -1778,11 +1778,19 @@ setup_execbuf_for_cmd_buffers(struct anv_execbuf *execbuf,
    }
 
    if (!device->info.has_llc) {
+   #if defined(__i386__) || defined(x86_64)
       __builtin_ia32_mfence();
+   #else
+      __atomic_thread_fence(__ATOMIC_SEQ_CST);
+   #endif
       for (uint32_t i = 0; i < num_cmd_buffers; i++) {
          u_vector_foreach(bbo, &cmd_buffers[i]->seen_bbos) {
             for (uint32_t i = 0; i < (*bbo)->length; i += CACHELINE_SIZE)
+            #if defined(__i386__) || defined(x86_64)
                __builtin_ia32_clflush((*bbo)->bo->map + i);
+            #else
+               __builtin___clear_cache((*bbo)->bo->map + i, (*bbo)->bo->map + i + CACHELINE_SIZE);
+            #endif
          }
       }
    }

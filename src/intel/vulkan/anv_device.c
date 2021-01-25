@@ -4091,7 +4091,11 @@ VkResult anv_FlushMappedMemoryRanges(
       return VK_SUCCESS;
 
    /* Make sure the writes we're flushing have landed. */
+#if defined(__i386__) || defined(x86_64)
    __builtin_ia32_mfence();
+#else
+   __atomic_thread_fence(__ATOMIC_SEQ_CST);
+#endif
 
    clflush_mapped_ranges(device, memoryRangeCount, pMemoryRanges);
 
@@ -4111,7 +4115,11 @@ VkResult anv_InvalidateMappedMemoryRanges(
    clflush_mapped_ranges(device, memoryRangeCount, pMemoryRanges);
 
    /* Make sure no reads get moved up above the invalidate. */
+#if defined(__i386__) || defined(x86_64)
    __builtin_ia32_mfence();
+#else
+   __atomic_thread_fence(__ATOMIC_SEQ_CST);
+#endif
 
    return VK_SUCCESS;
 }

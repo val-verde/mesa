@@ -34,7 +34,11 @@ gen_clflush_range(void *start, size_t size)
    void *end = start + size;
 
    while (p < end) {
+   #if defined(__i386__) || defined(x86_64)
       __builtin_ia32_clflush(p);
+   #else
+      __builtin___clear_cache(p, p + CACHELINE_SIZE);
+   #endif
       p += CACHELINE_SIZE;
    }
 }
@@ -42,7 +46,11 @@ gen_clflush_range(void *start, size_t size)
 static inline void
 gen_flush_range(void *start, size_t size)
 {
+#if defined(__i386__) || defined(x86_64)
    __builtin_ia32_mfence();
+#else
+   __atomic_thread_fence(__ATOMIC_SEQ_CST);
+#endif
    gen_clflush_range(start, size);
 }
 
@@ -51,6 +59,7 @@ gen_invalidate_range(void *start, size_t size)
 {
    gen_clflush_range(start, size);
 
+#if defined(__i386__) || defined(x86_64)
    /* Modern Atom CPUs (Baytrail+) have issues with clflush serialization,
     * where mfence is not a sufficient synchronization barrier.  We must
     * double clflush the last cacheline.  This guarantees it will be ordered
@@ -63,6 +72,7 @@ gen_invalidate_range(void *start, size_t size)
     */
    __builtin_ia32_clflush(start + size - 1);
    __builtin_ia32_mfence();
+#endif
 }
 
 #endif
