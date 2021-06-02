@@ -84,7 +84,9 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <limits.h>
+#if __has_include(<linux/memfd.h>)
 #include <linux/memfd.h>
+#endif
 #include <pthread.h>
 #include <stdio.h>
 #include <sys/mman.h>
