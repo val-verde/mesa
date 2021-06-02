@@ -40,6 +40,12 @@ TEMPLATE_H = Template(COPYRIGHT + """\
 #ifndef ${guard}
 #define ${guard}
 
+#ifdef __APPLE__
+  #define WEAK_IMPORT __attribute__ ((weak_import))
+#else
+  #define WEAK_IMPORT
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -62,7 +68,7 @@ extern const struct vk_device_entrypoint_table ${p}_device_entrypoints;
 #ifdef ${e.guard}
   % endif
   % for p in physical_device_prefixes:
-  VKAPI_ATTR ${e.return_type} VKAPI_CALL ${p}_${e.name}(${e.decl_params()});
+  VKAPI_ATTR ${e.return_type} VKAPI_CALL ${p}_${e.name}(${e.decl_params()}) WEAK_IMPORT;
   % endfor
   % if e.guard is not None:
 #endif // ${e.guard}
@@ -74,7 +80,7 @@ extern const struct vk_device_entrypoint_table ${p}_device_entrypoints;
 #ifdef ${e.guard}
   % endif
   % for p in physical_device_prefixes:
-  VKAPI_ATTR ${e.return_type} VKAPI_CALL ${p}_${e.name}(${e.decl_params()});
+  VKAPI_ATTR ${e.return_type} VKAPI_CALL ${p}_${e.name}(${e.decl_params()}) WEAK_IMPORT;
   % endfor
   % if e.guard is not None:
 #endif // ${e.guard}
@@ -86,16 +92,19 @@ extern const struct vk_device_entrypoint_table ${p}_device_entrypoints;
 #ifdef ${e.guard}
   % endif
   % for p in device_prefixes:
-  VKAPI_ATTR ${e.return_type} VKAPI_CALL ${p}_${e.name}(${e.decl_params()});
+  VKAPI_ATTR ${e.return_type} VKAPI_CALL ${p}_${e.name}(${e.decl_params()}) WEAK_IMPORT;
   % endfor
   % if e.guard is not None:
 #endif // ${e.guard}
   % endif
 % endfor
 % endif
-
 #ifdef __cplusplus
 }
+#endif
+
+#ifdef __APPLE__
+#undef WEAK_IMPORT
 #endif
 
 #endif /* ${guard} */
@@ -132,7 +141,22 @@ TEMPLATE_C = Template(COPYRIGHT + """
     #pragma comment(linker, "/alternatename:${p}_${e.name}=${p}_${e.name}_Null")
 #endif
 #else
+#ifndef __APPLE__
     VKAPI_ATTR ${e.return_type} VKAPI_CALL ${p}_${e.name}(${e.decl_params()}) __attribute__ ((weak));
+#else
+    __asm(".weak_reference _${p}_${e.name}");
+    #if 0
+    VKAPI_ATTR ${e.return_type} VKAPI_CALL ${p}_${e.name}(${e.decl_params()}) __attribute__ ((weak_import)) {
+    % if e.return_type == 'void':
+      return;
+    % elif e.return_type == 'VkResult':
+      return VK_ERROR_UNKNOWN;
+    % else:
+      return 0;
+    % endif
+    }
+    #endif
+#endif
 #endif
     % endfor
     % if e.guard is not None:
