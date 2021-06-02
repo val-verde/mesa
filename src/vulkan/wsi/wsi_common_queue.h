@@ -53,9 +53,11 @@ wsi_queue_init(struct wsi_queue *queue, int length)
    if (ret)
       goto fail_vector;
 
+#ifndef __APPLE__
    ret = pthread_condattr_setclock(&condattr, CLOCK_MONOTONIC);
    if (ret)
       goto fail_condattr;
+#endif
 
    ret = pthread_cond_init(&queue->cond, &condattr);
    if (ret)
