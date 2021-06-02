@@ -38,6 +38,9 @@
 #include "egldefines.h"
 #include "eglarray.h"
 
+#ifdef __APPLE__
+#include <X11/Xlib.h>
+#endif
 
 #ifdef __cplusplus
 extern "C" {
