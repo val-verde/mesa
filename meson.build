@@ -440,7 +440,7 @@ elif _egl == 'false'
 endif
 if _egl == 'auto'
   with_egl = (
-    not ['darwin', 'windows'].contains(host_machine.system()) and
+    not ['windows'].contains(host_machine.system()) and
     with_dri and with_shared_glapi
   )
 elif _egl == 'enabled'
@@ -450,8 +450,8 @@ elif _egl == 'enabled'
     error('EGL requires shared-glapi')
   elif not ['disabled', 'dri'].contains(with_glx)
     error('EGL requires dri, but a GLX is being built without dri')
-  elif ['darwin', 'windows'].contains(host_machine.system())
-    error('EGL is not available on Windows or MacOS')
+  elif ['windows'].contains(host_machine.system())
+    error('EGL is not available on Windows')
   endif
   with_egl = true
 else
