@@ -2372,7 +2372,7 @@ release_pipe:
 static const __DRIconfig **
 dri_kms_init_screen(__DRIscreen * sPriv)
 {
-#if defined(GALLIUM_SOFTPIPE)
+#if !defined(__APPLE__) && defined(GALLIUM_SOFTPIPE)
    const __DRIconfig **configs;
    struct dri_screen *screen;
    struct pipe_screen *pscreen = NULL;
