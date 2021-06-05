@@ -3406,6 +3406,7 @@ dri2_create_sync(_EGLDisplay *disp, EGLenum type, const EGLAttrib *attrib_list)
          return NULL;
       }
 
+    #ifndef __APPLE__
       /* change clock attribute to CLOCK_MONOTONIC */
       ret = pthread_condattr_setclock(&attr, CLOCK_MONOTONIC);
 
@@ -3414,6 +3415,7 @@ dri2_create_sync(_EGLDisplay *disp, EGLenum type, const EGLAttrib *attrib_list)
          free(dri2_sync);
          return NULL;
       }
+    #endif
 
       ret = pthread_cond_init(&dri2_sync->cond, &attr);
 
