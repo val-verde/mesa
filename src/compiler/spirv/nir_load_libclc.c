@@ -123,7 +123,7 @@ open_clc_data(struct clc_data *clc, unsigned ptr_bit_size)
       struct mesa_sha1 ctx;
       _mesa_sha1_init(&ctx);
       _mesa_sha1_update(&ctx, clc->file->sys_path, strlen(clc->file->sys_path));
-      _mesa_sha1_update(&ctx, &stat.st_mtim, sizeof(stat.st_mtim));
+      _mesa_sha1_update(&ctx, &stat.st_mtime, sizeof(stat.st_mtime));
       _mesa_sha1_final(&ctx, clc->cache_key);
 
       clc->fd = fd;
