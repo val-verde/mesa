@@ -29,7 +29,7 @@
 #include "zink_program.h"
 #include "zink_screen.h"
 
-#ifdef VK_USE_PLATFORM_METAL_EXT
+#if __OBJC__ && defined(VK_USE_PLATFORM_METAL_EXT)
 #include "QuartzCore/CAMetalLayer.h"
 #endif
 #include "vulkan/wsi/wsi_common.h"
