@@ -1633,25 +1633,34 @@ dep_llvm = null_dep
 with_llvm = false
 draw_with_llvm = get_option('draw-use-llvm')
 if _llvm != 'disabled'
-  dep_llvm = dependency(
-    'llvm',
-    version : _llvm_version,
-    modules : llvm_modules,
-    optional_modules : llvm_optional_modules,
-    required : (
-      with_amd_vk or with_gallium_radeonsi or with_gallium_swr or
-      with_gallium_opencl or with_microsoft_clc or _llvm == 'enabled'
-    ),
-    static : not _shared_llvm,
-    method : _llvm_method,
-    fallback : ['llvm', 'dep_llvm'],
-    include_type : 'system',
-  )
+  _skip_llvm_config = get_option('skip-llvm-config')
+  if _skip_llvm_config
+    dep_llvm = cc.find_library('LLVM')
+    dep_llvm_version = '13.0.0'
+    dep_llvm_rtti = 'ON'
+  else
+    dep_llvm = dependency(
+      'llvm',
+      version : _llvm_version,
+      modules : llvm_modules,
+      optional_modules : llvm_optional_modules,
+      required : (
+        with_amd_vk or with_gallium_radeonsi or with_gallium_swr or
+        with_gallium_opencl or with_microsoft_clc or _llvm == 'enabled'
+    )  ,
+      static : not _shared_llvm,
+      method : _llvm_method,
+      fallback : ['llvm', 'dep_llvm'],
+      include_type : 'system',
+    )
+    dep_llvm_version = dep_llvm.version()
+    dep_llvm_rtti = dep_llvm.get_variable(cmake : 'LLVM_ENABLE_RTTI', configtool: 'has-rtti')
+  endif
   with_llvm = dep_llvm.found()
 endif
 if with_llvm
   pre_args += '-DLLVM_AVAILABLE'
-  pre_args += '-DMESA_LLVM_VERSION_STRING="@0@"'.format(dep_llvm.version())
+  pre_args += '-DMESA_LLVM_VERSION_STRING="@0@"'.format(dep_llvm_version)
   pre_args += '-DLLVM_IS_SHARED=@0@'.format(_shared_llvm.to_int())
 
   if draw_with_llvm
@@ -1673,7 +1682,7 @@ if with_llvm
     _rtti = subproject('llvm').get_variable('has_rtti', true)
   else
     # The CMake finder will return 'ON', the llvm-config will return 'YES'
-    _rtti = ['ON', 'YES'].contains(dep_llvm.get_variable(cmake : 'LLVM_ENABLE_RTTI', configtool: 'has-rtti'))
+    _rtti = ['ON', 'YES'].contains(dep_llvm_rtti)
   endif
   if not _rtti
     if with_gallium_opencl
@@ -1705,7 +1714,7 @@ endif
 
 with_opencl_spirv = (_opencl != 'disabled' and get_option('opencl-spirv')) or with_microsoft_clc
 if with_opencl_spirv
-  chosen_llvm_version_array = dep_llvm.version().split('.')
+  chosen_llvm_version_array = dep_llvm_version.split('.')
   chosen_llvm_version_major = chosen_llvm_version_array[0].to_int()
   chosen_llvm_version_minor = chosen_llvm_version_array[1].to_int()
 
@@ -2196,7 +2205,7 @@ endif
 lines += ''
 if with_llvm
   lines += 'llvm:            yes'
-  lines += 'llvm-version:    ' + dep_llvm.version()
+  lines += 'llvm-version:    ' + dep_llvm_version
 else
   lines += 'llvm:            no'
 endif

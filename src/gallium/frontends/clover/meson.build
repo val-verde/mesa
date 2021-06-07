@@ -52,6 +52,12 @@ if with_opencl_spirv
   clover_spirv_cpp_args += '-DHAVE_CLOVER_SPIRV'
 endif
 
+if _skip_llvm_config
+  clang_libdir = ''
+else
+  clang_libdir = dep_llvm.get_variable(cmake : 'LLVM_LIBRARY_DIR', configtool: 'libdir')
+endif
+
 libclllvm = static_library(
   'clllvm',
   files(
@@ -71,8 +77,8 @@ libclllvm = static_library(
     clover_opencl_cpp_args,
     clover_spirv_cpp_args,
     '-DCLANG_RESOURCE_DIR="@0@"'.format(join_paths(
-      dep_llvm.get_variable(cmake : 'LLVM_LIBRARY_DIR', configtool: 'libdir'), 'clang',
-      dep_llvm.version(), 'include',
+      clang_libdir, 'clang',
+      dep_llvm_version, 'include',
     )),
   ],
   gnu_symbol_visibility : 'hidden',

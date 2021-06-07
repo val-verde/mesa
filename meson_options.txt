@@ -328,6 +328,12 @@ option(
   description : 'Build with LLVM support.'
 )
 option(
+   'skip-llvm-config',
+   type : 'boolean',
+   value : false,
+   description : 'Skip llvm-config entirely and import llvm as a shared library'
+)
+option(
   'shared-llvm',
   type : 'combo',
   value : 'auto',
