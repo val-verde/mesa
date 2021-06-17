@@ -38,7 +38,7 @@
 #include "egldefines.h"
 #include "eglarray.h"
 
-#ifdef __APPLE__
+#if defined(__ANDROID__) || defined(__APPLE__)
 #include <X11/Xlib.h>
 #endif
 
