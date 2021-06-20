@@ -24,6 +24,16 @@
 #ifndef ZINK_SCREEN_H
 #define ZINK_SCREEN_H
 
+#include <vulkan/vulkan.h>
+
+#if defined(__APPLE__)
+// Source of MVK_VERSION
+#include <vulkan/vulkan_beta.h>
+#include <vulkan/vulkan_macos.h>
+#include <vulkan/vulkan_metal.h>
+#include "MoltenVK/vk_mvk_moltenvk.h"
+#endif
+
 #include "zink_device_info.h"
 #include "zink_instance.h"
 #include "vk_dispatch_table.h"
@@ -37,8 +47,6 @@
 #include "util/simple_mtx.h"
 #include "util/u_queue.h"
 #include "util/u_live_shader_cache.h"
-
-#include <vulkan/vulkan.h>
 
 extern uint32_t zink_debug;
 struct hash_table;
