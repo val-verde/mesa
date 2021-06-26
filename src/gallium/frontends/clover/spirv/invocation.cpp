@@ -55,17 +55,17 @@ namespace {
       return static_cast<T>(word_ptr[index]);
    }
 
-   enum module::argument::type
+   enum clover::module::argument::type
    convert_storage_class(SpvStorageClass storage_class, std::string &err) {
       switch (storage_class) {
       case SpvStorageClassFunction:
-         return module::argument::scalar;
+         return clover::module::argument::scalar;
       case SpvStorageClassUniformConstant:
-         return module::argument::global;
+         return clover::module::argument::global;
       case SpvStorageClassWorkgroup:
-         return module::argument::local;
+         return clover::module::argument::local;
       case SpvStorageClassCrossWorkgroup:
-         return module::argument::global;
+         return clover::module::argument::global;
       default:
          err += "Invalid storage type " + std::to_string(storage_class) + "\n";
          throw build_error();
@@ -87,7 +87,7 @@ namespace {
       }
    }
 
-   enum module::argument::type
+   enum clover::module::argument::type
    convert_image_type(SpvId id, SpvDim dim, SpvAccessQualifier access,
                       std::string &err) {
       switch (dim) {
@@ -97,9 +97,9 @@ namespace {
       case SpvDimBuffer:
          switch (access) {
          case SpvAccessQualifierReadOnly:
-            return module::argument::image_rd;
+            return clover::module::argument::image_rd;
          case SpvAccessQualifierWriteOnly:
-            return module::argument::image_wr;
+            return clover::module::argument::image_wr;
          default:
             err += "Unknown access qualifier " + std::to_string(access) + " for image "
                 +  std::to_string(id) + ".\n";
@@ -112,11 +112,11 @@ namespace {
       }
    }
 
-   module::section
+   clover::module::section
    make_text_section(const std::string &code,
-                     enum module::section::type section_type) {
+                     enum clover::module::section::type section_type) {
       const pipe_binary_program_header header { uint32_t(code.size()) };
-      module::section text { 0, section_type, header.num_bytes, {} };
+      clover::module::section text { 0, section_type, header.num_bytes, {} };
 
       text.data.insert(text.data.end(), reinterpret_cast<const char *>(&header),
                        reinterpret_cast<const char *>(&header) + sizeof(header));
@@ -125,7 +125,7 @@ namespace {
       return text;
    }
 
-   module
+   clover::module
    create_module_from_spirv(const std::string &source,
                             size_t pointer_byte_size,
                             std::string &err) {
@@ -134,14 +134,14 @@ namespace {
 
       std::string kernel_name;
       size_t kernel_nb = 0u;
-      std::vector<module::argument> args;
+      std::vector<clover::module::argument> args;
       std::vector<size_t> req_local_size;
 
-      module m;
+      clover::module m;
 
       std::unordered_map<SpvId, std::vector<size_t> > req_local_sizes;
       std::unordered_map<SpvId, std::string> kernels;
-      std::unordered_map<SpvId, module::argument> types;
+      std::unordered_map<SpvId, clover::module::argument> types;
       std::unordered_map<SpvId, SpvId> pointer_types;
       std::unordered_map<SpvId, unsigned int> constants;
       std::unordered_set<SpvId> packed_structures;
@@ -258,8 +258,8 @@ namespace {
          case SpvOpTypeFloat: {
             const auto size = get<uint32_t>(inst, 2) / 8u;
             const auto id = get<SpvId>(inst, 1);
-            types[id] = { module::argument::scalar, size, size, size,
-                          module::argument::zero_ext };
+            types[id] = { clover::module::argument::scalar, size, size, size,
+                          clover::module::argument::zero_ext };
             types[id].info.address_qualifier = CL_KERNEL_ARG_ADDRESS_PRIVATE;
             break;
          }
@@ -281,9 +281,9 @@ namespace {
             const auto elem_size = types_iter->second.size;
             const auto elem_nbs = constants_iter->second;
             const auto size = elem_size * elem_nbs;
-            types[id] = { module::argument::scalar, size, size,
+            types[id] = { clover::module::argument::scalar, size, size,
                           types_iter->second.target_align,
-                          module::argument::zero_ext };
+                          clover::module::argument::zero_ext };
             break;
          }
 
@@ -311,8 +311,8 @@ namespace {
                struct_align = std::max(struct_align, alignment);
             }
             struct_size += (-struct_size) & (struct_align - 1u);
-            types[id] = { module::argument::scalar, struct_size, struct_size,
-                          struct_align, module::argument::zero_ext };
+            types[id] = { clover::module::argument::scalar, struct_size, struct_size,
+                          struct_align, clover::module::argument::zero_ext };
             break;
          }
 
@@ -332,8 +332,8 @@ namespace {
             const auto elem_nbs = get<uint32_t>(inst, 3);
             const auto size = elem_size * elem_nbs;
             const auto align = elem_size * util_next_power_of_two(elem_nbs);
-            types[id] = { module::argument::scalar, size, size, align,
-                          module::argument::zero_ext };
+            types[id] = { clover::module::argument::scalar, size, size, align,
+                          clover::module::argument::zero_ext };
             types[id].info.address_qualifier = CL_KERNEL_ARG_ADDRESS_PRIVATE;
             break;
          }
@@ -352,15 +352,15 @@ namespace {
 
             types[id] = { convert_storage_class(storage_class, err),
                           sizeof(cl_mem),
-                          static_cast<module::size_t>(pointer_byte_size),
-                          static_cast<module::size_t>(pointer_byte_size),
-                          module::argument::zero_ext };
+                          static_cast<clover::module::size_t>(pointer_byte_size),
+                          static_cast<clover::module::size_t>(pointer_byte_size),
+                          clover::module::argument::zero_ext };
             types[id].info.address_qualifier = convert_storage_class_to_cl(storage_class);
             break;
          }
 
          case SpvOpTypeSampler:
-            types[get<SpvId>(inst, 1)] = { module::argument::sampler,
+            types[get<SpvId>(inst, 1)] = { clover::module::argument::sampler,
                                              sizeof(cl_sampler) };
             break;
 
@@ -370,7 +370,7 @@ namespace {
             const auto access = get<SpvAccessQualifier>(inst, 9);
             types[id] = { convert_image_type(id, dim, access, err),
                           sizeof(cl_mem), sizeof(cl_mem), sizeof(cl_mem),
-                          module::argument::zero_ext };
+                          clover::module::argument::zero_ext };
             break;
          }
 
@@ -410,10 +410,10 @@ namespace {
                for (auto &i : func_param_attr_iter->second) {
                   switch (i) {
                   case SpvFunctionParameterAttributeSext:
-                     arg.ext_type = module::argument::sign_ext;
+                     arg.ext_type = clover::module::argument::sign_ext;
                      break;
                   case SpvFunctionParameterAttributeZext:
-                     arg.ext_type = module::argument::zero_ext;
+                     arg.ext_type = clover::module::argument::zero_ext;
                      break;
                   case SpvFunctionParameterAttributeByVal: {
                      const SpvId ptr_type_id =
@@ -466,7 +466,7 @@ namespace {
       }
 
       m.secs.push_back(make_text_section(source,
-                                         module::section::text_intermediate));
+                                         clover::module::section::text_intermediate));
       return m;
    }
 
@@ -725,7 +725,7 @@ clover::spirv::version_to_string(uint32_t version) {
       std::to_string(minor_version);
 }
 
-module
+clover::module
 clover::spirv::compile_program(const std::string &binary,
                                const device &dev, std::string &r_log,
                                bool validate) {
@@ -747,8 +747,8 @@ clover::spirv::compile_program(const std::string &binary,
                                    dev.address_bits() == 32 ? 4u : 8u, r_log);
 }
 
-module
-clover::spirv::link_program(const std::vector<module> &modules,
+clover::module
+clover::spirv::link_program(const std::vector<clover::module> &modules,
                             const device &dev, const std::string &opts,
                             std::string &r_log) {
    std::vector<std::string> options = tokenize(opts);
@@ -771,10 +771,10 @@ clover::spirv::link_program(const std::vector<module> &modules,
    spvtools::LinkerOptions linker_options;
    linker_options.SetCreateLibrary(create_library);
 
-   module m;
+   clover::module m;
 
-   const auto section_type = create_library ? module::section::text_library :
-                                              module::section::text_executable;
+   const auto section_type = create_library ? clover::module::section::text_library :
+                                              clover::module::section::text_executable;
 
    std::vector<const uint32_t *> sections;
    sections.reserve(modules.size());
@@ -789,9 +789,9 @@ clover::spirv::link_program(const std::vector<module> &modules,
    };
 
    for (const auto &mod : modules) {
-      const auto &msec = find([](const module::section &sec) {
-                  return sec.type == module::section::text_intermediate ||
-                         sec.type == module::section::text_library;
+      const auto &msec = find([](const clover::module::section &sec) {
+                  return sec.type == clover::module::section::text_intermediate ||
+                         sec.type == clover::module::section::text_library;
                }, mod.secs);
 
       const auto c_il = ((struct pipe_binary_program_header*)msec.data.data())->blob;
@@ -922,7 +922,7 @@ clover::spirv::version_to_string(uint32_t version) {
    return "";
 }
 
-module
+clover::module
 clover::spirv::compile_program(const std::string &binary,
                                const device &dev, std::string &r_log,
                                bool validate) {
@@ -930,8 +930,8 @@ clover::spirv::compile_program(const std::string &binary,
    throw build_error();
 }
 
-module
-clover::spirv::link_program(const std::vector<module> &/*modules*/,
+clover::module
+clover::spirv::link_program(const std::vector<clover::module> &/*modules*/,
                             const device &/*dev*/, const std::string &/*opts*/,
                             std::string &r_log) {
    r_log += "SPIR-V support in clover is not enabled.\n";

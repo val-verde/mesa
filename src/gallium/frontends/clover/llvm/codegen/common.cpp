@@ -283,13 +283,13 @@ namespace {
    }
 }
 
-module
+clover::module
 clover::llvm::build_module_common(const Module &mod,
                                   const std::vector<char> &code,
                                   const std::map<std::string,
                                                  unsigned> &offsets,
                                   const clang::CompilerInstance &c) {
-   module m;
+   clover::module m;
 
    for (const auto &llvm_name : map(std::mem_fn(&Function::getName),
                                get_kernels(mod))) {

@@ -368,7 +368,7 @@ namespace {
 #endif
 }
 
-module
+clover::module
 clover::llvm::compile_program(const std::string &source,
                               const header_map &headers,
                               const device &dev,
@@ -386,7 +386,7 @@ clover::llvm::compile_program(const std::string &source,
    if (has_flag(debug::llvm))
       debug::log(".ll", print_module_bitcode(*mod));
 
-   return build_module_library(*mod, module::section::text_intermediate);
+   return build_module_library(*mod, clover::module::section::text_intermediate);
 }
 
 namespace {
@@ -427,7 +427,7 @@ namespace {
 
    std::unique_ptr<Module>
    link(LLVMContext &ctx, const clang::CompilerInstance &c,
-        const std::vector<module> &modules, std::string &r_log) {
+        const std::vector<clover::module> &modules, std::string &r_log) {
       std::unique_ptr<Module> mod { new Module("link", ctx) };
       std::unique_ptr< ::llvm::Linker> linker { new ::llvm::Linker(*mod) };
 
@@ -440,8 +440,8 @@ namespace {
    }
 }
 
-module
-clover::llvm::link_program(const std::vector<module> &modules,
+clover::module
+clover::llvm::link_program(const std::vector<clover::module> &modules,
                            const device &dev, const std::string &opts,
                            std::string &r_log) {
    std::vector<std::string> options = tokenize(opts + " input.cl");
@@ -476,7 +476,7 @@ clover::llvm::link_program(const std::vector<module> &modules,
 }
 
 #ifdef HAVE_CLOVER_SPIRV
-module
+clover::module
 clover::llvm::compile_to_spirv(const std::string &source,
                                const header_map &headers,
                                const device &dev,

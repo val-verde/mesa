@@ -70,17 +70,17 @@ clover::llvm::print_module_bitcode(const ::llvm::Module &mod) {
    return os.str();
 }
 
-module
+clover::module
 clover::llvm::build_module_library(const ::llvm::Module &mod,
-                                   enum module::section::type section_type) {
-   module m;
+                                   enum clover::module::section::type section_type) {
+   clover::module m;
    const auto code = emit_code(mod);
    m.secs.emplace_back(0, section_type, code.size(), code);
    return m;
 }
 
 std::unique_ptr< ::llvm::Module>
-clover::llvm::parse_module_library(const module &m, ::llvm::LLVMContext &ctx,
+clover::llvm::parse_module_library(const clover::module &m, ::llvm::LLVMContext &ctx,
                                    std::string &r_log) {
    auto mod = ::llvm::parseBitcodeFile(::llvm::MemoryBufferRef(
                                         as_string(m.secs[0].data), " "), ctx);

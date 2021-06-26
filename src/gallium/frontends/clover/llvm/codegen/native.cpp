@@ -143,7 +143,7 @@ namespace {
    }
 }
 
-module
+clover::module
 clover::llvm::build_module_native(::llvm::Module &mod, const target &target,
                                   const clang::CompilerInstance &c,
                                   std::string &r_log) {
@@ -167,7 +167,7 @@ clover::llvm::print_module_native(const ::llvm::Module &mod,
 
 #else
 
-module
+clover::module
 clover::llvm::build_module_native(::llvm::Module &mod, const target &target,
                                   const clang::CompilerInstance &c,
                                   std::string &r_log) {

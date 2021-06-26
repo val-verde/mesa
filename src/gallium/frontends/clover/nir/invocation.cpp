@@ -238,7 +238,7 @@ clover_nir_lower_images(nir_shader *shader)
 }
 
 struct clover_lower_nir_state {
-   std::vector<module::argument> &args;
+   std::vector<clover::module::argument> &args;
    uint32_t global_dims;
    nir_variable *constant_var;
    nir_variable *printf_buffer;
@@ -261,9 +261,9 @@ clover_lower_nir_instr(nir_builder *b, nir_instr *instr, void *_state)
    case nir_intrinsic_load_printf_buffer_address: {
       if (!state->printf_buffer) {
          unsigned location = state->args.size();
-         state->args.emplace_back(module::argument::global, sizeof(size_t),
-                                  8, 8, module::argument::zero_ext,
-                                  module::argument::printf_buffer);
+         state->args.emplace_back(clover::module::argument::global, sizeof(size_t),
+                                  8, 8, clover::module::argument::zero_ext,
+                                  clover::module::argument::printf_buffer);
 
          const glsl_type *type = glsl_uint64_t_type();
          state->printf_buffer = nir_variable_create(b->shader, nir_var_uniform,
@@ -282,9 +282,9 @@ clover_lower_nir_instr(nir_builder *b, nir_instr *instr, void *_state)
           * three 32 bit values
          */
          unsigned location = state->args.size();
-         state->args.emplace_back(module::argument::scalar, 4, 4, 4,
-                                  module::argument::zero_ext,
-                                  module::argument::grid_offset);
+         state->args.emplace_back(clover::module::argument::scalar, 4, 4, 4,
+                                  clover::module::argument::zero_ext,
+                                  clover::module::argument::grid_offset);
 
          const glsl_type *type = glsl_uint_type();
          for (uint32_t i = 0; i < 3; i++) {
@@ -313,7 +313,7 @@ clover_lower_nir_instr(nir_builder *b, nir_instr *instr, void *_state)
 }
 
 static bool
-clover_lower_nir(nir_shader *nir, std::vector<module::argument> &args,
+clover_lower_nir(nir_shader *nir, std::vector<clover::module::argument> &args,
                  uint32_t dims, uint32_t pointer_bit_size)
 {
    nir_variable *constant_var = NULL;
@@ -324,10 +324,10 @@ clover_lower_nir(nir_shader *nir, std::vector<module::argument> &args,
                                          "constant_buffer_addr");
       constant_var->data.location = args.size();
 
-      args.emplace_back(module::argument::global,
+      args.emplace_back(clover::module::argument::global,
                         pointer_bit_size / 8, pointer_bit_size / 8, pointer_bit_size / 8,
-                        module::argument::zero_ext,
-                        module::argument::constant_buffer);
+                        clover::module::argument::zero_ext,
+                        clover::module::argument::constant_buffer);
    }
 
    clover_lower_nir_state state = { args, dims, constant_var };
@@ -396,19 +396,19 @@ nir_shader *clover::nir::load_libclc_nir(const device &dev, std::string &r_log)
 				 &spirv_options, compiler_options);
 }
 
-module clover::nir::spirv_to_nir(const module &mod, const device &dev,
-                                 std::string &r_log)
+clover::module clover::nir::spirv_to_nir(const module &mod, const device &dev,
+                                        std::string &r_log)
 {
    spirv_to_nir_options spirv_options = create_spirv_options(dev, r_log);
    std::shared_ptr<nir_shader> nir = dev.clc_nir;
    spirv_options.clc_shader = nir.get();
 
-   module m;
+   clover::module m;
    // We only insert one section.
    assert(mod.secs.size() == 1);
    auto &section = mod.secs[0];
 
-   module::resource_id section_id = 0;
+   clover::module::resource_id section_id = 0;
    for (const auto &sym : mod.syms) {
       assert(sym.section == 0);
 
@@ -534,9 +534,9 @@ module clover::nir::spirv_to_nir(const module &mod, const device &dev,
 
       if (nir->constant_data_size) {
          const char *ptr = reinterpret_cast<const char *>(nir->constant_data);
-         const module::section constants {
+         const clover::module::section constants {
             section_id,
-            module::section::data_constant,
+            clover::module::section::data_constant,
             nir->constant_data_size,
             { ptr, ptr + nir->constant_data_size }
          };
@@ -558,7 +558,7 @@ module clover::nir::spirv_to_nir(const module &mod, const device &dev,
       ralloc_free(nir);
 
       const pipe_binary_program_header header { uint32_t(blob.size) };
-      module::section text { section_id, module::section::text_executable, header.num_bytes, {} };
+      clover::module::section text { section_id, clover::module::section::text_executable, header.num_bytes, {} };
       text.data.insert(text.data.end(), reinterpret_cast<const char *>(&header),
                        reinterpret_cast<const char *>(&header) + sizeof(header));
       text.data.insert(text.data.end(), blob.data, blob.data + blob.size);
@@ -568,7 +568,7 @@ module clover::nir::spirv_to_nir(const module &mod, const device &dev,
       m.printf_strings_in_buffer = false;
       m.printf_infos.reserve(printf_info_count);
       for (unsigned i = 0; i < printf_info_count; i++) {
-         module::printf_info info;
+         clover::module::printf_info info;
 
          info.arg_sizes.reserve(printf_infos[i].num_args);
          for (unsigned j = 0; j < printf_infos[i].num_args; j++)
@@ -589,7 +589,7 @@ module clover::nir::spirv_to_nir(const module &mod, const device &dev,
    return m;
 }
 #else
-module clover::nir::spirv_to_nir(const module &mod, const device &dev, std::string &r_log)
+clover::module clover::nir::spirv_to_nir(const clover::module &mod, const device &dev, std::string &r_log)
 {
    r_log += "SPIR-V support in clover is not enabled.\n";
    throw error(CL_LINKER_NOT_AVAILABLE);
