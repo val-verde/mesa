@@ -412,8 +412,8 @@ if _gbm == 'auto'
 else
   with_gbm = _gbm == 'enabled'
 endif
-if with_gbm and not system_has_kms_drm
-  error('GBM only supports DRM/KMS platforms')
+if with_gbm and not system_has_kms_drm and host_machine.system() != 'darwin'
+  error('GBM only supports DRM/KMS platforms on Linux and Quartz on Darwin')
 endif
 
 _xlib_lease = get_option('xlib-lease')
